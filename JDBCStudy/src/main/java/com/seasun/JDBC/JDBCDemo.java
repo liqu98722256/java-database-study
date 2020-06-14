@@ -8,7 +8,7 @@ public class JDBCDemo {
         Class.forName("com.mysql.jdbc.Driver");
         String url = "jdbc:mysql://localhost:3306/mybatis_test?useSSL=false";
         String user = "root";
-        String password = "987272256";
+        String password = "----------";
         Connection conn = null;
         PreparedStatement preparedStatement = null;
         try {
