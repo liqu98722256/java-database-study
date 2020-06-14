@@ -1,0 +1,4 @@
+com\seasun\domain\UserInfo.class
+com\seasun\domain\User.class
+com\seasun\dao\IUser.class
+com\seasun\dao\IUserInfo.class
