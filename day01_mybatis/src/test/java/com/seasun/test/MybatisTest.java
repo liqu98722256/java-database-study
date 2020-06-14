@@ -3,7 +3,9 @@ package com.seasun.test;
 
 import com.seasun.dao.IUser;
 import com.seasun.dao.IUserInfo;
+import com.seasun.domain.Lists;
 import com.seasun.domain.User;
+import com.seasun.domain.UserInfo;
 import org.apache.ibatis.io.Resources;
 import org.apache.ibatis.session.SqlSession;
 import org.apache.ibatis.session.SqlSessionFactory;
@@ -47,7 +49,6 @@ public class MybatisTest {
         iUserInfo.findAll().forEach(value -> {
             System.out.println(value);
         });
-
     }
 
     @Test
@@ -97,4 +98,33 @@ public class MybatisTest {
         List<User> users = mapper.findByName("%红%");
         users.forEach(value -> System.out.println(value));
     }
+
+    @Test
+    public void testFindByConditional() {
+        IUser mapper = session.getMapper(IUser.class);
+        User user = new User();
+//        user.setId(15);
+        user.setSex("female");
+        user.setAge(18);
+//        user.setBirthday(new Date());
+        mapper.findByConditional(user).forEach(System.out::println);
+        session.commit();
+    }
+
+    @Test
+    public void testFindByUserInfo() {
+        IUser mapper = session.getMapper(IUser.class);
+        UserInfo userInfo = new UserInfo();
+        userInfo.setUid(19);
+        User byUserInfo = mapper.findByUserInfo(userInfo);
+        System.out.println(byUserInfo);
+    }
+
+    @Test
+    public void testFindByCollection() {
+        IUser mapper = session.getMapper(IUser.class);
+        Lists lists = new Lists();
+        mapper.findByCollection(lists).forEach(System.out::println);
+    }
 }
+

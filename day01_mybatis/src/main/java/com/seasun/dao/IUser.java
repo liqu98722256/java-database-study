@@ -1,6 +1,8 @@
 package com.seasun.dao;
 
+import com.seasun.domain.Lists;
 import com.seasun.domain.User;
+import com.seasun.domain.UserInfo;
 
 import java.util.List;
 
@@ -20,4 +22,11 @@ public interface IUser {
     User findById(Integer uid);
 
     List<User> findByName(String name);
+
+    List<User> findByConditional(User user);
+
+    User findByUserInfo(UserInfo userInfo);
+
+    List<User> findByCollection(Lists lists);
+
 }
