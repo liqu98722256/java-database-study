@@ -29,4 +29,7 @@ public interface IUser {
 
     List<User> findByCollection(Lists lists);
 
+    List<User> findAllAndAccount();
+
+    List<User> findAllAndTag();
 }

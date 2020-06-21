@@ -5,6 +5,11 @@
 <configuration>
     <!--  引用数据库配置文件  -->
     <properties resource="mysqlConfig.properties"></properties>
+    <settings>
+        <setting name="lazyLoadingEnabled" value="true"/>
+        <setting name="aggressiveLazyLoading" value="true"/>
+        <setting name="cacheEnabled" value="true"/>
+    </settings>
     <environments default="development">
         <environment id="development">
             <transactionManager type="JDBC"/>
@@ -18,6 +23,7 @@
     </environments>
     <mappers>
         <mapper resource="com/seasun/dao/IUserDao.xml"/>
-        <mapper class="com.seasun.dao.IUserInfo"/>
+        <mapper resource="com/seasun/dao/IUserInfoDao.xml"/>
+        <mapper resource="com/seasun/dao/IAccountDao.xml"/>
     </mappers>
 </configuration>

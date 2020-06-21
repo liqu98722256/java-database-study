@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.seasun.dao.IUserInfo">
+    <sql id="default">
+        select * from user_info
+    </sql>
+    <resultMap id="UserInfoMap" type="com.seasun.domain.UserInfo">
+        <id property="id" column="id"/>
+        <id property="uid" column="uid"/>
+        <result property="height" column="height"/>
+        <result property="weight" column="weight"/>
+        <association property="user" column="uid">
+            <id property="id" column="id"/>
+            <result property="name" column="name"/>
+            <result property="age" column="age"/>
+        </association>
+    </resultMap>
+    <select id="findAll" resultMap="UserInfoMap">
+        select ui.*, u.name from user_info ui
+        inner join user u
+        on ui.uid = u.id
+    </select>
+</mapper>

@@ -19,7 +19,7 @@ import java.io.InputStream;
 import java.util.Date;
 import java.util.List;
 
-public class MybatisTest {
+public class IUserTest {
     InputStream resources;
     SqlSessionFactoryBuilder factoryBuilder;
     SqlSessionFactory factory;
@@ -40,7 +40,7 @@ public class MybatisTest {
 
     @Test
     public void testFindAll() throws IOException {
-        IUser iUser = session.getMapper(IUser.class);
+        com.seasun.dao.IUser iUser = session.getMapper(com.seasun.dao.IUser.class);
         IUserInfo iUserInfo = session.getMapper(IUserInfo.class);
         iUser.findAll().forEach(value -> {
             System.out.println(value);
@@ -59,7 +59,7 @@ public class MybatisTest {
         user.setAge(18);
         user.setBirthday(new Date());
         user.setAddress("非洲");
-        IUser mapper = session.getMapper(IUser.class);
+        com.seasun.dao.IUser mapper = session.getMapper(com.seasun.dao.IUser.class);
         mapper.save(user);
         session.commit();
     }
@@ -73,35 +73,35 @@ public class MybatisTest {
         user.setAge(18);
         user.setBirthday(new Date());
         user.setAddress("中国");
-        IUser mapper = session.getMapper(IUser.class);
+        com.seasun.dao.IUser mapper = session.getMapper(com.seasun.dao.IUser.class);
         mapper.update(user);
         session.commit();
     }
 
     @Test
     public void testDestroy() {
-        IUser mapper = session.getMapper(IUser.class);
+        com.seasun.dao.IUser mapper = session.getMapper(com.seasun.dao.IUser.class);
         mapper.destroy(15);
         session.commit();
     }
 
     @Test
     public void testFindById() {
-        IUser mapper = session.getMapper(IUser.class);
+        com.seasun.dao.IUser mapper = session.getMapper(com.seasun.dao.IUser.class);
         User user = mapper.findById(18);
         System.out.println(user);
     }
 
     @Test
     public void testFindByName() {
-        IUser mapper = session.getMapper(IUser.class);
+        com.seasun.dao.IUser mapper = session.getMapper(com.seasun.dao.IUser.class);
         List<User> users = mapper.findByName("%红%");
         users.forEach(value -> System.out.println(value));
     }
 
     @Test
     public void testFindByConditional() {
-        IUser mapper = session.getMapper(IUser.class);
+        com.seasun.dao.IUser mapper = session.getMapper(com.seasun.dao.IUser.class);
         User user = new User();
 //        user.setId(15);
         user.setSex("female");
@@ -113,7 +113,7 @@ public class MybatisTest {
 
     @Test
     public void testFindByUserInfo() {
-        IUser mapper = session.getMapper(IUser.class);
+        com.seasun.dao.IUser mapper = session.getMapper(com.seasun.dao.IUser.class);
         UserInfo userInfo = new UserInfo();
         userInfo.setUid(19);
         User byUserInfo = mapper.findByUserInfo(userInfo);
@@ -122,9 +122,21 @@ public class MybatisTest {
 
     @Test
     public void testFindByCollection() {
-        IUser mapper = session.getMapper(IUser.class);
+        com.seasun.dao.IUser mapper = session.getMapper(com.seasun.dao.IUser.class);
         Lists lists = new Lists();
         mapper.findByCollection(lists).forEach(System.out::println);
+    }
+
+    @Test
+    public void testFindAllAndAccount() {
+        com.seasun.dao.IUser mapper = session.getMapper(com.seasun.dao.IUser.class);
+        mapper.findAllAndAccount().forEach(System.out::println);
+    }
+
+    @Test
+    public void testFindAllAndTag() throws IOException {
+        com.seasun.dao.IUser mapper = session.getMapper(com.seasun.dao.IUser.class);
+        mapper.findAllAndTag().forEach(System.out::println);
     }
 }
 

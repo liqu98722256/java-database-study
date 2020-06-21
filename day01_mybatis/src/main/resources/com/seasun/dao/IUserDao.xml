@@ -4,10 +4,12 @@
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
 <mapper namespace="com.seasun.dao.IUser">
+    <!--  开启二级缓存  -->
+    <cache/>
     <!--  抽取重复使用的sql语句  -->
     <sql id="default">select * from user</sql>
     <!--  查询所有用户  -->
-    <select id="findAll" resultType="com.seasun.domain.User">
+    <select id="findAll" resultType="com.seasun.domain.User" useCache="true">
         <include refid="default"></include>
     </select>
     <!--  保存用户数据  -->
@@ -80,4 +82,46 @@
             </if>
         </where>
     </select>
+
+    <!--  一对多查询，查询所有用户信息并且查询用户所有的账户信息 -->
+    <resultMap id="userAccountMap" type="com.seasun.domain.User">
+        <id property="id" column="id"/>
+        <result property="name" column="name"/>
+        <result property="sex" column="sex"/>
+        <result property="age" column="age"/>
+        <result property="birthday" column="birthday"/>
+        <result property="address" column="address"/>
+        <collection property="accounts" ofType="com.seasun.domain.Account">
+            <id property="id" column="aid"/>
+            <result property="uid" column="uid"/>
+            <result property="username" column="username"/>
+            <result property="password" column="password"/>
+        </collection>
+    </resultMap>
+    <select id="findAllAndAccount" resultMap="userTagMap">
+        select *, a.id as aid from user
+        left join account a
+        on user.id = a.uid;
+    </select>
+
+    <!--  多对多查询  -->
+    <resultMap id="userTagMap" type="com.seasun.domain.User">
+        <id property="id" column="id"/>
+        <result property="name" column="name"/>
+        <result property="sex" column="sex"/>
+        <result property="age" column="age"/>
+        <result property="birthday" column="birthday"/>
+        <result property="address" column="address"/>
+        <collection property="tags" ofType="com.seasun.domain.Tag">
+            <id property="id" column="tid"/>
+            <result property="tag" column="tag"/>
+            <result property="desc" column="desc"/>
+        </collection>
+    </resultMap>
+    <select id="findAllAndTag" resultMap="userTagMap">
+        select `u`.*, `t`.id as tid, `t`.tag, `t`.desc from `user` u
+        left outer join `user_tag` ut on u.id = ut.uid
+        left outer join `tag` t on t.id = ut.tid;
+    </select>
+
 </mapper>

@@ -8,6 +8,8 @@ public class UserInfo implements Serializable {
     private Integer height;
     private Integer weight;
 
+    private User user;
+
     public Integer getId() {
         return id;
     }
@@ -40,6 +42,10 @@ public class UserInfo implements Serializable {
         this.weight = weight;
     }
 
+    public User getUser() {
+        return user;
+    }
+
     @Override
     public String toString() {
         return "UserInfo{" +
@@ -47,6 +53,7 @@ public class UserInfo implements Serializable {
                 ", uid=" + uid +
                 ", height=" + height +
                 ", weight=" + weight +
+                ", user=" + user +
                 '}';
     }
 }

@@ -2,6 +2,7 @@ package com.seasun.domain;
 
 import java.io.Serializable;
 import java.util.Date;
+import java.util.List;
 
 public class User implements Serializable {
     private Integer id;
@@ -10,18 +11,8 @@ public class User implements Serializable {
     private Integer age;
     private Date birthday;
     private String address;
-
-    @Override
-    public String toString() {
-        return "User{" +
-                "id=" + id +
-                ", name='" + name + '\'' +
-                ", sex='" + sex + '\'' +
-                ", age=" + age +
-                ", birthday=" + birthday +
-                ", address='" + address + '\'' +
-                '}';
-    }
+    private List<Account> accounts;
+    private List<Tag> tags;
 
     public Integer getId() {
         return id;
@@ -69,5 +60,35 @@ public class User implements Serializable {
 
     public void setAddress(String address) {
         this.address = address;
+    }
+
+    public List<Account> getAccounts() {
+        return accounts;
+    }
+
+    public void setAccounts(List<Account> accounts) {
+        this.accounts = accounts;
+    }
+
+    public List<Tag> getTags() {
+        return tags;
+    }
+
+    public void setTags(List<Tag> tags) {
+        this.tags = tags;
+    }
+
+    @Override
+    public String toString() {
+        return "User{" +
+                "id=" + id +
+                ", name='" + name + '\'' +
+                ", sex='" + sex + '\'' +
+                ", age=" + age +
+                ", birthday=" + birthday +
+                ", address='" + address + '\'' +
+                ", accounts=" + accounts +
+                ", tags=" + tags +
+                '}';
     }
 }
