@@ -103,10 +103,8 @@ public class IUserTest {
     public void testFindByConditional() {
         com.seasun.dao.IUser mapper = session.getMapper(com.seasun.dao.IUser.class);
         User user = new User();
-//        user.setId(15);
         user.setSex("female");
         user.setAge(18);
-//        user.setBirthday(new Date());
         mapper.findByConditional(user).forEach(System.out::println);
         session.commit();
     }
