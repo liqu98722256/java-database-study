@@ -118,6 +118,7 @@ public class IUserTest {
         userInfo.setUid(19);
         User byUserInfo = mapper.findByUserInfo(userInfo);
         System.out.println(byUserInfo);
+        System.out.println(1);
     }
 
     @Test
