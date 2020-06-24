@@ -25,8 +25,13 @@
     </update>
     <!--  删除用户数据  -->
     <delete id="destroy" parameterType="Integer">
+<<<<<<< HEAD
         delete from user
         where id = #{id};
+=======
+        <include refid="default"></include>
+        where id = #{id}
+>>>>>>> cfa358207943d84b032d166f3df828eeb3394c5b
     </delete>
     <!--  根据id查询用户数据  -->
     <select id="findById" parameterType="Integer" resultType="com.seasun.domain.User">
