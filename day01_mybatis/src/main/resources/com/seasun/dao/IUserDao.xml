@@ -1,0 +1,127 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.seasun.dao.IUser">
+    <!--  开启二级缓存  -->
+    <cache/>
+    <!--  抽取重复使用的sql语句  -->
+    <sql id="default">select * from user</sql>
+    <!--  查询所有用户  -->
+    <select id="findAll" resultType="com.seasun.domain.User" useCache="true">
+        <include refid="default"></include>
+    </select>
+    <!--  保存用户数据  -->
+    <insert id="save" parameterType="com.seasun.domain.User">
+        insert into user(name, sex, age, birthday, address)
+        values(#{name}, #{sex}, #{age}, #{birthday}, #{address});
+    </insert>
+    <!--  更新用户数据  -->
+    <update id="update" parameterType="com.seasun.domain.User">
+        update user
+        set name = #{name}, sex = #{sex}, age = #{age}, birthday = #{birthday}, address = #{address}
+        where id = #{id}
+    </update>
+    <!--  删除用户数据  -->
+    <delete id="destroy" parameterType="Integer">
+        delete from user
+        where id = #{id};
+    </delete>
+    <!--  根据id查询用户数据  -->
+    <select id="findById" parameterType="Integer" resultType="com.seasun.domain.User">
+        select * from user
+        where id = #{id}
+    </select>
+    <!--  根据用户名模糊查询  -->
+    <select id="findByName" parameterType="String" resultType="com.seasun.domain.User">
+        <include refid="default"></include>
+        where name like #{name}
+    </select>
+    <!--  使用对象查询  -->
+    <select id="findByUserInfo" parameterType="com.seasun.domain.UserInfo" resultType="com.seasun.domain.User">
+        <include refid="default"></include>
+        <where>
+            <if test="uid != 0">
+                and id = #{uid}
+            </if>
+        </where>
+    </select>
+    <!--  动态查询  -->
+    <select id="findByConditional" parameterType="com.seasun.domain.User" resultType="com.seasun.domain.User">
+        <include refid="default"></include>
+        <where>
+            <if test="id != null">
+                and id = #{id}
+            </if>
+            <if test="name != null">
+                and name = #{name}
+            </if>
+            <if test="sex != null">
+                and sex = #{sex}
+            </if>
+            <if test="age != null">
+                and age = #{age}
+            </if>
+            <if test="birthday != null">
+                and birthday = #{birthday}
+            </if>
+            <if test="address != null">
+                and address = #{address}
+            </if>
+        </where>
+    </select>
+    <!--  使用集合查询  -->
+    <select id="findByCollection" parameterType="com.seasun.domain.Lists" resultType="com.seasun.domain.User">
+        <include refid="default"></include>
+        <where>
+            <if test="list != null and list.size() != 0">
+                <foreach collection="list" open="and id in (" close=")" item="uid" separator=",">
+                    #{uid}
+                </foreach>
+            </if>
+        </where>
+    </select>
+
+    <!--  一对多查询，查询所有用户信息并且查询用户所有的账户信息 -->
+    <resultMap id="userAccountMap" type="com.seasun.domain.User">
+        <id property="id" column="id"/>
+        <result property="name" column="name"/>
+        <result property="sex" column="sex"/>
+        <result property="age" column="age"/>
+        <result property="birthday" column="birthday"/>
+        <result property="address" column="address"/>
+        <collection property="accounts" ofType="com.seasun.domain.Account">
+            <id property="id" column="aid"/>
+            <result property="uid" column="uid"/>
+            <result property="username" column="username"/>
+            <result property="password" column="password"/>
+        </collection>
+    </resultMap>
+    <select id="findAllAndAccount" resultMap="userTagMap">
+        select *, a.id as aid from user
+        left join account a
+        on user.id = a.uid;
+    </select>
+
+    <!--  多对多查询  -->
+    <resultMap id="userTagMap" type="com.seasun.domain.User">
+        <id property="id" column="id"/>
+        <result property="name" column="name"/>
+        <result property="sex" column="sex"/>
+        <result property="age" column="age"/>
+        <result property="birthday" column="birthday"/>
+        <result property="address" column="address"/>
+        <collection property="tags" ofType="com.seasun.domain.Tag">
+            <id property="id" column="tid"/>
+            <result property="tag" column="tag"/>
+            <result property="desc" column="desc"/>
+        </collection>
+    </resultMap>
+    <select id="findAllAndTag" resultMap="userTagMap">
+        select `u`.*, `t`.id as tid, `t`.tag, `t`.desc from `user` u
+        left outer join `user_tag` ut on u.id = ut.uid
+        left outer join `tag` t on t.id = ut.tid;
+    </select>
+
+</mapper>
