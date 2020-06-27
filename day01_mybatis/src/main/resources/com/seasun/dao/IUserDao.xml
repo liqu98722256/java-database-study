@@ -9,7 +9,7 @@
     <!--  抽取重复使用的sql语句  -->
     <sql id="default">select * from user</sql>
     <!--  查询所有用户  -->
-    <select id="findAll" resultType="com.seasun.domain.User" useCache="true">
+    <select id="findAll" resultType="com.seasun.domain.User">
         <include refid="default"></include>
     </select>
     <!--  保存用户数据  -->

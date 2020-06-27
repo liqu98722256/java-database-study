@@ -9,6 +9,7 @@
         <id property="uid" column="uid"/>
         <result property="username" column="username"/>
         <result property="password" column="password"/>
+        <!--    使用延迟加载，当使用数据时才会真正的去拿取用户数据，否则只加载基本的userInfo    -->
         <association
                 property="user"
                 column="uid"
@@ -16,7 +17,7 @@
                 select="com.seasun.dao.IUser.findById"
         />
     </resultMap>
-    <select id="findAll" resultMap="AccountMap">
+    <select id="findAll" resultMap="AccountMap" useCache="true">
         select * from account
     </select>
 

@@ -1,15 +1,24 @@
 package com.seasun.dao;
 
+import com.seasun.domain.Account;
 import com.seasun.domain.User;
-import org.apache.ibatis.annotations.Delete;
-import org.apache.ibatis.annotations.Insert;
-import org.apache.ibatis.annotations.Select;
-import org.apache.ibatis.annotations.Update;
+import org.apache.ibatis.annotations.*;
+import org.apache.ibatis.mapping.FetchType;
 
 import java.util.List;
 
 public interface IUserDao {
     @Select(value="select * from user")
+    @Results(id = "userResultMap",value = {
+            @Result(id = true, property = "id", column = "id"),
+            @Result(property = "name", column = "name"),
+            @Result(property = "sex", column = "sex"),
+            @Result(property = "age", column = "age"),
+            @Result(property = "birthday", column = "birthday"),
+            @Result(property = "address", column = "address"),
+            @Result(property = "accounts", column = "id",
+                    many = @Many(select = "com.seasun.dao.IAccountDao.findUserById", fetchType = FetchType.LAZY))
+    })
     List<User> findAll();
 
     @Select(value="select * from user where id = #{id}")
@@ -37,4 +46,10 @@ public interface IUserDao {
             "select * from user where name like #{name}"
     )
     List<User> findByName(String name);
+
+    @Select(value =
+            "select * from user"
+    )
+    @ResultMap(value = "userResultMap")
+    List<User> findForAccount();
 }

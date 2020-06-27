@@ -17,7 +17,7 @@
                 select="com.seasun.dao.IUser.findById"
         />
     </resultMap>
-    <select id="findAll" resultMap="AccountMap">
+    <select id="findAll" resultMap="AccountMap" useCache="true">
         select * from account
     </select>
 

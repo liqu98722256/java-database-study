@@ -1,6 +1,7 @@
 package com.seasun.domain;
 
 import java.util.Date;
+import java.util.List;
 
 public class User {
     private Integer id;
@@ -9,6 +10,17 @@ public class User {
     private Integer age;
     private Date birthday;
     private String address;
+
+    private List<Account> accounts;
+
+    public List<Account> getAccounts() {
+        return accounts;
+    }
+
+    public void setAccounts(List<Account> accounts) {
+        this.accounts = accounts;
+    }
+
     public Integer getId() {
         return id;
     }
@@ -66,6 +78,7 @@ public class User {
                 ", age=" + age +
                 ", birthday=" + birthday +
                 ", address='" + address + '\'' +
+                ", accounts=" + accounts +
                 '}';
     }
 }

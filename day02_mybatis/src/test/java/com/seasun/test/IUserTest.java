@@ -90,4 +90,11 @@ public class IUserTest {
         System.out.println(byName);
     }
 
+    @Test
+    public void TestFindForAccount() {
+        sqlSession = build.openSession();
+        IUserDao mapper = sqlSession.getMapper(IUserDao.class);
+        List<User> users= mapper.findForAccount();
+        users.forEach(System.out::println);
+    }
 }
